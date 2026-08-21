@@ -1,7 +1,7 @@
 ---
 name: coding-hermes
 description: "Coding/debug 任務自動載入:三層行為紀律、fixindex 查寫、盲試停損、長期任務自給自足。"
-version: 1.0.0
+version: 1.1.0
 author: royalskynet (Ether)
 license: MIT
 platforms: [linux, macos, windows]
@@ -85,6 +85,28 @@ printf 'CONTEXT: ...\nINSIGHT: ...\nIMPLICATION: ...\nREVISIT-WHEN: ...\nQUERIES
 
 **診斷未實作也寫**:標「not fixed」+ 下一步 — 診斷本身是資產。
 
+### 寫入驗證:search 命中 ≠ 寫入成功
+
+`fixindex fi` 寫完後**不得**用 `fixindex find "<剛寫的症狀>"` 當成功判準。索引是語意搜尋,幾個月前的相近舊帳一樣會命中高分 —— 寫入根本失敗時也照樣「查得到」,看起來像成功。
+
+**唯一判準是 `fixindex fi` 自己回傳的 JSON**:
+
+```json
+{"appended": "0322-<slug>.md", "section": 2, "committed": "05c8954", "pushed": true, "git_error": null}
+```
+
+- `appended` + `section` → 條目的精確位址 `NNNN#S`,回報時貼這個,不要只寫編號
+- `committed` 有 SHA、`pushed: true`、`git_error: null` → 才算落地
+- 指令非零結束碼、或 harness 回 `Exec failed` → **就是沒寫進去**,不得回報成功
+
+**複查要對得上位址**:`fixindex find` 之後,確認命中的是 `appended`/`section` 指的那一條(比對 title 與 tags),不是語意相近的別條。對不上就是沒寫成功。
+
+**跳脫地獄的解**:`printf` 內嵌 `\|`、`%`、巢狀引號極易讓整條指令掛掉。內容超過三行就先寫檔再 pipe:
+
+```bash
+cat /tmp/fi-entry.txt | fixindex fi
+```
+
 ## 長期任務自給自足(agent / subagent 在跑時)
 
 - 每 iteration 邊界 / 續跑前檢查是否需要寫檢查點,記錄 iteration 數、判決、摘要,避免 timeout 失去進度。
@@ -97,4 +119,5 @@ printf 'CONTEXT: ...\nINSIGHT: ...\nIMPLICATION: ...\nREVISIT-WHEN: ...\nQUERIES
 - [ ] 首輪失敗後有回查舊帳 / docs / GitHub
 - [ ] 盲試 ≤2 次,修正輪 ≤3 輪
 - [ ] 完工後有 `fixindex fi` 記錄(除非無 defect 可記)
+- [ ] 寫入有貼 `fixindex fi` 回傳的 `appended`/`section`/`committed`/`pushed`,不是拿 `find` 命中充數
 - [ ] 改 schema/config 後已推到 live,驗收條文含指令已實跑貼輸出
