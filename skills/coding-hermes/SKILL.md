@@ -1,7 +1,7 @@
 ---
 name: coding-hermes
 description: "Coding/debug 任務載入:膠水思維、架構原則、三層查證紀律、停損兩軸(重試/範圍)、fixindex 查寫與寫入驗證、代理協作紀律、測驗式驗收。"
-version: 2.0.0
+version: 2.1.0
 author: royalskynet (Ether)
 license: MIT
 platforms: [linux, macos, windows]
@@ -180,6 +180,8 @@ cat /tmp/fi-entry.txt | fixindex fi
 **驗收寬鬆＝靜默失敗**:Judge/Guard/referee 類功能修復時,驗收樣本必須含**一條會紅的判決樣本**(明確違規 → 必須 block/rewrite;正常 → allow),否則全 PASS 可能是 fail-open 洗白 —— 機制沒判,全靠放行。
 
 偵測:樣本 verdict 全部落在安全側(allow / guard_error)而無任何 block/rewrite ＝ 警訊。
+
+**貼原始輸出,不貼過濾後的輸出**: 驗收回報裡的指令輸出必須是那條指令的原樣結果。想聚焦就把過濾條件寫進指令本身(`git status --porcelain -- <path>`), 不要跑寬指令再手挑幾行貼出來 —— 讀的人會把它當全貌。輸出很長就標明「節錄,共 N 行」並附上產生節錄的指令。
 
 **測驗式驗收(重大改動限定)**:重大改動(人格 prompt、交易系統、fallback 順序、排程、不可逆操作)完成後出**一題**測驗,確認使用者懂改了什麼及為何:
 
