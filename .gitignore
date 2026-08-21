@@ -1,0 +1,4 @@
+# npx skills add local install artifacts (do not commit)
+.agents/
+.claude/
+skills-lock.json
