@@ -65,6 +65,8 @@ gh search repos "<要解的問題>" --sort stars --limit 10  # 有沒有現成�
 
 ## 完工寫入 fixindex(只在修好 defect 時)
 
+> 完整指令細節（`fixindex find` / `fixindex fi` defect 與 insight 格式 / 禁則清單 / 環境變數）見 [references/fixindex-usage.md](references/fixindex-usage.md)。
+
 修好**一個 defect** 才記錄(階段完成、任務交付、session 收工並不算;phase 工作流最容易把 runbook 寫成日記)。
 
 **判準**:寫不出別人會拿來搜尋的 `Symptom` → 這是進度報告,不是條目。
