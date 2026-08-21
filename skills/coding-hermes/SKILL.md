@@ -24,7 +24,7 @@ metadata:
 
 開發/整合/除錯任務**動手前**必須先查,合併結果,不是查無才查另一個:
 
-1. **修理日誌** — `fixindex find "<錯誤症狀 / 系統名>"`(預設 runbook 在 `~/notes/runbook/fixes`,可用 `FIXINDEX_DIR` 覆蓋;本機亦常見 `~/.claude/runbook/fixes`)。命中 → 直接讀對應 `fixes/NNNN-*.md`。若 `fixindex` 未安裝,改用本機記憶/搜尋工具。
+1. **修理日誌** — `fixindex find "<錯誤症狀 / 系統名>"`(預設 runbook 在 `~/notes/runbook/fixes`,可用 `FIXINDEX_DIR` 覆蓋)。命中 → 直接讀對應 `fixes/NNNN-*.md`。若 `fixindex` 未安裝,改用本機記憶/搜尋工具。
 2. **Hermes 歷史** — `session_search`(本地 session DB)搜過去修過的同類問題。
 3. **既有範例 / 接口** — 找同類 config/模板當範例,跑 `--help` 或讀文件確認接口,不靠猜測。
 
