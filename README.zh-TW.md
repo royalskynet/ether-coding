@@ -63,6 +63,10 @@ npx skills add https://github.com/royalskynet/coding-hermes-skill --skill coding
 
 未安裝時，Layer 1 的 `fixindex find` 段落改以本機記憶 / 搜建工具代替，skill 其餘紀律照樣適用。
 
+## 附帶斜線指令
+
+[`commands/dispatch.md`](commands/dispatch.md) — `/dispatch`：派工前工單客製化檢查（前情自足、可驗證驗收標準、只含必要資訊、步驟詳細、範圍界定、無頭可執行性）。安裝方式：複製到 `~/.claude/commands/dispatch.md`。
+
 ## 來源
 
 本 skill 抽出自 [royalskynet/coding-hermes](https://github.com/royalskynet/coding-hermes)（`NousResearch/hermes-agent` 的 fork）的 coding agent 行為紀律，做成獨立可安裝的 skill。沿革詳請見 [HISTORY.md](HISTORY.md)。

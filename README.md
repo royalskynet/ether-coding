@@ -63,6 +63,10 @@ This skill deliberately does **not** define numeric stop-loss thresholds, the co
 
 If not installed, Layer 1's `fixindex find` step falls back to local memory / search tools. All other discipline rules still apply.
 
+## Bundled slash command
+
+[`commands/dispatch.md`](commands/dispatch.md) — `/dispatch`: pre-dispatch work-order customization check (self-sufficient context, verifiable acceptance criteria, necessary-info-only, detailed steps, out-of-scope list, headless executability). Written in Traditional Chinese. Install by copying to `~/.claude/commands/dispatch.md`.
+
 ## Origin
 
 This skill packages the coding-agent behavior doctrine from [royalskynet/coding-hermes](https://github.com/royalskynet/coding-hermes) (a fork of NousResearch/hermes-agent) into a standalone installable skill. See [HISTORY.md](HISTORY.md) for the full lineage.
