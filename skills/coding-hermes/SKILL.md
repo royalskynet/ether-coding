@@ -134,6 +134,8 @@ gh search repos "<要解的問題>" --sort stars --limit 10  # 有沒有現成�
 ## 完工寫入 fixindex(只在修好 defect 時)
 
 > 完整指令細節（`fixindex find` / `fixindex fi` defect 與 insight 格式 / 禁則清單 / 環境變數）見 [references/fixindex-usage.md](references/fixindex-usage.md)。
+>
+> 維護 agent 系統本身時（改行為契約檔／查系統健康／動自我改進管線）見 [references/agent-tools.md](references/agent-tools.md)——工具在 `~/dev/agent-tools`，可派 worker。
 
 修好**一個 defect** 才記錄(階段完成、任務交付、session 收工並不算;phase 工作流最容易把 runbook 寫成日記)。
 
@@ -183,6 +185,19 @@ cat /tmp/fi-entry.txt | fixindex fi
 
 **貼原始輸出,不貼過濾後的輸出**: 驗收回報裡的指令輸出必須是那條指令的原樣結果。想聚焦就把過濾條件寫進指令本身(`git status --porcelain -- <path>`), 不要跑寬指令再手挑幾行貼出來 —— 讀的人會把它當全貌。輸出很長就標明「節錄,共 N 行」並附上產生節錄的指令。
 
+**工具的回報也是宣稱**:健檢/lint/audit/探測工具的輸出跟人的完成報告同級 —— 是宣稱,不是事實。兩個方向都要先懷疑量測工具:
+
+- **正面回報**(「抓到 N 個問題」)：工具穩定吐同一批不會消失的 issue 時,第一個假設是**偵測器過期**,不是待修清單很長。查法:`git log -S'<檢查裡的關鍵字串>'` 找引入 commit —— 若它跟某個已完成的修法同批進來,那個修法就是它的退役條件。標 `report only`/`warning only` 的檢查最危險,沒人會去修,誤報永久累積直到整份輸出沒人看。全文 fixindex `0599`。
+- **負面探測**(連不上/解析失敗/401/空回應)：可能是自己的探測姿勢,不是對象壞了。單一負面訊號只能開啟調查,不能結案。全文 fixindex `0575`。
+- 靠名字/長度/關鍵字比對的檢查一定會誤傷真資料,再加一道便宜的內容閘(行數、section 數、是否空殼)。**自己臨時寫的掃描腳本同樣適用** —— 抽驗幾筆命中再相信它的總數。
+
+**訊號收集器上線後先看它收到什麼,不是看它有沒有在收**:「有資料進來」最常被當成運作正常,但**誤報率 100% 的收集器比沒有收集器更糟** —— 下游會把噪音當證據,而且噪音愈多看起來愈像訊號充足。
+
+- **前 N 筆逐筆人工看過內容再接下游**。任何自動分類器都適用,不只回饋收集。
+- 事件來源是**共用管道**時(hook 的 UserPromptSubmit、匯流的 log、broadcast topic),先問「除了我要的,還有誰會流經這裡」—— harness 注入的任務通知、系統提醒、slash command 的 stdout 都長得像使用者發言。
+- **關鍵詞比對要限定位置**。糾正與指令會在開頭出現;同一個詞埋在長文深處多半是敘述用語(「這**不是** harness 失敗」)。全文比對必然把長篇報告收成糾正。
+- 判準:抽樣的摘要若一筆都不含觸發詞,代表觸發位置遠離開頭,比對範圍就是錯的。全文 fixindex `0631`。
+
 **測驗式驗收(重大改動限定)**:重大改動(人格 prompt、交易系統、fallback 順序、排程、不可逆操作)完成後出**一題**測驗,確認使用者懂改了什麼及為何:
 
 - 只問一題,答對即通過
@@ -201,9 +216,26 @@ cat /tmp/fi-entry.txt | fixindex fi
 
 ## 長期任務自給自足(agent / subagent 在跑時)
 
-- 每 iteration 邊界 / 續跑前檢查是否需要寫檢查點,記錄 iteration 數、判決、摘要,避免 timeout 失去進度。
-- `kanban` worker:另見 `kanban-worker` skill — Block 理由要具體(如「rate-limit key 選擇」),`kanban_show` 優先於 CLI。
-- Plan 定稿回報必帶**計畫檔絕對路徑**。
+> **長期任務自給自足**：長任務檢查點一律用 state.json——檔名、schema、時機見 `~/.claude/shared/state-file.md`（每 iteration 邊界先覆寫再續跑）。
+
+## 從回饋學到的
+
+> 本段由 improver 維護：它讀人類回饋（session 內糾正、PR review comment、
+> `fixindex mark` 的斷言），一次只提一條、開 PR，**人工 merge 後才生效**。
+> marker 以外的內容視為 CORE，improver 不得改動。
+
+<!-- LEARNED:BEGIN -->
+<!-- LEARNED:END -->
+
+## 指令構造（agent 構造指令的當下不觸發檢索）
+
+`context-router`／claude-mem 的召回綁在 **user prompt** 上；**agent 自己構造指令的那一刻沒有任何注入**。以下三條是重踩過的「指令構造型」教訓 —— 靠語意檢索救不回來，必須寫成常駐行為：
+
+1. **`head` 截斷輸出判斷內容會誤判**（fixindex 0547#5）：`git status --porcelain | head` 剛好被 10 行改名填滿，未追蹤檔的證據被切掉，據此下錯結論。→ 判斷「有沒有某類輸出」時用 `wc -l`／`grep -c` 數全量，不用 `head` 當全貌；要節錄就明寫「節錄，共 N 行」。
+2. **`mv` 語意隨目標存在與否而變**（fixindex 0629#2）：目標不存在＝改名、目標存在＝搬進去，同條指令兩種結果（實測把狀態目錄包成 93 層巢狀）。→ 移動前先確認目標目錄是否已存在，且 `mv` 後用 `find`／`ls` 驗證最終位置與層數，不預設語意。
+3. **`push` 錯 ref／無效 ref 會靜默 no-op**（fixindex 0636）：`git push` 印「Everything up-to-date」但本地 10 個 commit 沒上去（ref 指錯），退出碼仍是 0。→ push 後比對 `git log origin/<branch>..HEAD` 剩餘 commit 數，或 `git status -sb` 看 ahead 數，不靠「沒報錯」當成功。
+
+> 這三條是「高頻且後果大」才被選入；全部塞進去會讓 skill 膨脹，違反 progressive disclosure。行為改善**未經實驗驗證**——若再踩到三種之一，代表本段固化無效，應改 lint 或收工自檢（追蹤：fixindex 0645）。
 
 ## 收工自檢清單
 
@@ -213,4 +245,6 @@ cat /tmp/fi-entry.txt | fixindex fi
 - [ ] 完工後有 `fixindex fi` 記錄(除非無 defect 可記)
 - [ ] 寫入有貼 `fixindex fi` 回傳的 `appended`/`section`/`committed`/`pushed`,不是拿 `find` 命中充數
 - [ ] Judge/Guard 類改動的驗收樣本含一條會紅的判決
+- [ ] 依健檢/掃描工具的回報做事之前,有抽驗幾筆命中確認不是誤報(含自己剛寫的腳本)
+- [ ] 新上線的訊號收集器/分類器,有逐筆看過前幾筆**內容**再接下游,不是只確認「有資料」
 - [ ] 改 schema/config 後已推到 live,驗收條文含指令已實跑貼輸出
