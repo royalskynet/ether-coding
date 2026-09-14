@@ -45,3 +45,7 @@ Early versions of this doctrine depended on `royalskynet/mdispatch` (plan.md dis
 ### 保留依賴
 
 `royalskynet/fixindex` 仍在維護（最後更新 2026-08-18），為本 skill 的選用依賴。
+
+## 2026-09-14 v2.2.0 本體瘦身拆 references
+
+本體 16KB→≤7KB，細節拆六份 `references/`，progressive disclosure。行為不變，僅搬移與新增 References 索引。
