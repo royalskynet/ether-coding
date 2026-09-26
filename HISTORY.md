@@ -49,3 +49,7 @@ Early versions of this doctrine depended on `royalskynet/mdispatch` (plan.md dis
 ## 2026-09-14 v2.2.0 本體瘦身拆 references
 
 本體 16KB→≤7KB，細節拆六份 `references/`，progressive disclosure。行為不變，僅搬移與新增 References 索引。
+
+## 2026-09-26 v2.3.0 自動情境路由
+
+SKILL.md 改為六模式路由表（定向／圖譜優先／結構映射／查證／審計／專案記憶），先選最輕且足夠的模式、證據不足才升級。新增 references/orientation-routing.md 完整定義升降級判準、圖譜新鮮度與審計輸出；research-playbook、fixindex-usage、command-construction 同步小修。
