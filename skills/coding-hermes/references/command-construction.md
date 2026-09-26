@@ -2,7 +2,7 @@
 
 ## 背景
 
-`context-router`／claude-mem 的召回綁在 **user prompt** 上；**agent 自己構造指令的那一刻沒有任何注入**。以下三條是重踩過的「指令構造型」教訓 —— 靠語意檢索救不回來,必須寫成常駐行為。這是「高頻且後果大」才被選入；全部塞進去會讓 skill 膨脹,違反 progressive disclosure。
+`context-router`／Beacon 記憶召回綁在 **user prompt** 上；**agent 自己構造指令的那一刻沒有任何注入**。以下三條是重踩過的「指令構造型」教訓 —— 靠語意檢索救不回來,必須寫成常駐行為。這是「高頻且後果大」才被選入；全部塞進去會讓 skill 膨脹,違反 progressive disclosure。
 
 ## 三條
 

@@ -46,9 +46,9 @@ printf 'CONTEXT: <背景>\nINSIGHT: <洞察>\nIMPLICATION: <影響>\nREVISIT-WHE
 4. **一條記塞多個 defect**：一事一條
 5. **secrets**：含截斷 key 前綴的 credential 一律不入檔
 
-## 診斷未實作也寫
+## 未修診斷
 
-標註「not fixed」+ 下一步，診斷本身是資產。
+未修診斷寫入交接文件，記錄已排除證據與最小下一步；不要寫入 fixindex。宿主若另有更嚴規則，依宿主規則。
 
 ## 寫入驗證:search 命中 ≠ 寫入成功
 
