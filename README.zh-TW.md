@@ -12,6 +12,7 @@
 
 ```bash
 npx skills add https://github.com/royalskynet/coding-hermes-skill --skill coding-hermes
+npx skills add https://github.com/royalskynet/coding-hermes-skill --skill wheel   # Layer 2 找輪子
 ```
 
 安裝到 `~/.hermes/skills/coding-hermes/`。**開新 session** 才會進索引生效。
@@ -25,7 +26,7 @@ npx skills add https://github.com/royalskynet/coding-hermes-skill --skill coding
 | 層 | 觸發 | 動作 |
 |---|---|---|
 | 1. 動手前查舊帳 | coding 任務開頭 | `fixindex find "<症狀>"` + `session_search`，合併閱讀 |
-| 2. 找輪子與查證 | 自己寫的量超過膠水（新檔案 / 新抽象 / >50 行邏輯）之前；或同一道指令首次失敗之後 | 四路並行：(a) `fixindex find` 回查失敗症狀；(b) **官方文檔** — 工具/套件 docs、CHANGELOG、migration guide；(c) **社群反饋** — GitHub Discussions、Stack Overflow、官方 Discord/論壇、Reddit，搜錯誤訊息原文；(d) **`gh search` 找現成輪子** — `gh search issues "<錯誤>" --state closed`、`gh search code "<關鍵 API>"`、`gh search repos "<問題>"`，用現成方案，不重造輪子 |
+| 2. 找輪子與查證 | 自己寫的量超過膠水（新檔案 / 新抽象 / >50 行邏輯）之前；或同一道指令首次失敗之後 | 跑 `wheel` skill：(a) `fixindex find` 回查失敗症狀；再三軸 — **官方文檔**、**社群共識**（`gh search issues "<錯誤>" --state closed`、SO／Reddit）、**成熟輪子**（`gh search repos/code`）→ 輪子卡＋7 級裁決（不做／換題／設定／採用／改用／借鏡／自造），自造是最後一格 |
 | 3. 三條路線失敗後記錄並阻斷 | 已試 3 種不同方案仍失敗 | 用 `fixindex fi` 記錄「未修 + 診斷 + 下一步」，停手求助 |
 
 **膠水思維** — 能抄不寫、能連不造、能復用不原創；不發明 → 先搜；只做膠水 → 不造輪子；先結構後代碼；奧卡姆剃刀；可證偽優先（主動找反例）；官方文檔優先；社群回饋備援。
