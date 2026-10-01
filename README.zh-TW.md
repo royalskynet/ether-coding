@@ -1,18 +1,18 @@
-# coding-hermes-skill
+# wheel-coding
 
 > English: [README.md](README.md)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-可安裝的 coding agent 行為紀律 skill —— 動手前紀律、研究優先、膠水思維、架構原則、三層查證紀律、停損兩軸（重試 / 範圍）、fixindex 查寫與寫入驗證、驗收紀律、代理協作紀律。不寫停損次數閾值（見下方宿主分工聲明）。
+**先找輪子，再動手造。** 兩個可安裝 skill：`wheel`（找現成解法：官方文件、社群共識、成熟 repo → 7 級裁決）與 `coding-hermes`（圍繞它的 coding agent 行為紀律： 動手前紀律、研究優先、膠水思維、架構原則、三層查證紀律、停損兩軸（重試 / 範圍）、fixindex 查寫與寫入驗證、驗收紀律、代理協作紀律。不寫停損次數閾值（見下方宿主分工聲明）。）
 
 **技能類型：** Hermes Agent skill（純文檔紀律，無 runtime 依賴）
 
 ## 安裝
 
 ```bash
-npx skills add https://github.com/royalskynet/coding-hermes-skill --skill coding-hermes
-npx skills add https://github.com/royalskynet/coding-hermes-skill --skill wheel   # Layer 2 找輪子
+npx skills add https://github.com/royalskynet/wheel-coding --skill coding-hermes
+npx skills add https://github.com/royalskynet/wheel-coding --skill wheel   # Layer 2 找輪子
 ```
 
 安裝到 `~/.hermes/skills/coding-hermes/`。**開新 session** 才會進索引生效。

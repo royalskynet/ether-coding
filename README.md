@@ -1,18 +1,18 @@
-# coding-hermes-skill
+# wheel-coding
 
 > 繁體中文：[README.zh-TW.md](README.zh-TW.md)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-Coding-agent behavior doctrine as an installable skill — pre-work discipline, research-first, glue coding, architecture principles, three-layer verification discipline, two stop-loss axes (retry / scope), fixindex read & write verification, acceptance discipline, and agent collaboration rules. No numeric stop-loss thresholds (see the host-division note below).
+**Find the wheel before you build it.** Two installable skills: `wheel` (prior-art search: official docs, community consensus, mature repos → a 7-level verdict) and `coding-hermes` (the coding-agent behavior doctrine around it: pre-work discipline, research-first, glue coding, architecture principles, three-layer verification discipline, two stop-loss axes (retry / scope), fixindex read & write verification, acceptance discipline, and agent collaboration rules. No numeric stop-loss thresholds (see the host-division note below).)
 
 **Skill type:** Hermes Agent skill（純文檔紀律，無 runtime 依賴）
 
 ## Install
 
 ```bash
-npx skills add https://github.com/royalskynet/coding-hermes-skill --skill coding-hermes
-npx skills add https://github.com/royalskynet/coding-hermes-skill --skill wheel   # Layer 2 prior-art
+npx skills add https://github.com/royalskynet/wheel-coding --skill coding-hermes
+npx skills add https://github.com/royalskynet/wheel-coding --skill wheel   # Layer 2 prior-art
 ```
 
 Installs to `~/.hermes/skills/coding-hermes/`. **Start a new session** for it to be indexed.
