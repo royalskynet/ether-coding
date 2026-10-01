@@ -12,6 +12,7 @@ Coding-agent behavior doctrine as an installable skill — pre-work discipline, 
 
 ```bash
 npx skills add https://github.com/royalskynet/coding-hermes-skill --skill coding-hermes
+npx skills add https://github.com/royalskynet/coding-hermes-skill --skill wheel   # Layer 2 prior-art
 ```
 
 Installs to `~/.hermes/skills/coding-hermes/`. **Start a new session** for it to be indexed.
@@ -25,7 +26,7 @@ Installs to `~/.hermes/skills/coding-hermes/`. **Start a new session** for it to
 | Layer | Trigger | Action |
 |---|---|---|
 | 1. Open-time lookup | coding task start | `fixindex find \"<symptom>\"` + `session_search`, merge results |
-| 2. On-failure re-query | before your own code exceeds glue (new file / abstraction / >50-line logic), or first failure of a command | Four parallel paths: (a) `fixindex find` with failure symptom; (b) **official docs** — tool/package docs, CHANGELOG, migration guide; (c) **community feedback** — GitHub Discussions, Stack Overflow, official Discord/forums, Reddit, search error message verbatim; (d) **`gh search` for prior art** — `gh search issues \"<error>\" --state closed`, `gh search code \"<key API>\"`, `gh search repos \"<problem>\"`, use existing solutions, don't reinvent the wheel |
+| 2. On-failure re-query | before your own code exceeds glue (new file / abstraction / >50-line logic), or first failure of a command | Run the `wheel` skill: (a) `fixindex find` with failure symptom; then three lanes — **official docs**, **community consensus** (`gh search issues "<error>" --state closed`, SO/Reddit), **mature repos** (`gh search repos/code`) → a wheel card with a 7-level verdict (skip / reframe / configure / adopt / fork / borrow / build). Build is the last rung |
 | 3. Record-and-block after 3 approaches | 3 different approaches failed | Record with `fixindex fi` (unfixed + diagnosis + next step) | stop and ask for help |
 
 **Glue coding** — don't invent, glue: no reinvention; stub first then code; Occam's razor; falsifiable-first (seek counterexamples); official docs first; community fallback.

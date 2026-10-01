@@ -1,6 +1,6 @@
 ---
 name: coding-hermes
-version: 2.3.0
+version: 2.4.0
 author: royalskynet (Ether)
 description: "複雜跨檔開發、陌生程式庫或服務、架構或影響面不明、外部整合、重複失敗時使用：先建立可驗證的系統模型，再選最小實作、查證、驗收與停損。一般局部小修、純配置、純問答或已有更窄專用 workflow 時不使用；全庫技術債審計僅在使用者明確要求時進入。"
 license: MIT
@@ -24,7 +24,7 @@ metadata:
 | 路徑已知、單一子系統、低風險 | 定向理解 | 讀受影響的導出、調用者、測試、共用庫與配置；建立局部流程後修改 |
 | 問題涉及跨檔關係，且已有 `graphify-out/graph.json`、`.ua/knowledge-graph.json` 或 `.understand-anything/knowledge-graph.json` | 圖譜優先 | 先查現成圖譜，再以原始碼驗證關鍵邊；圖譜是索引，不是事實 |
 | 陌生程式庫、跨信任／持久化／公開契約邊界、跨 3+ 模組，或入口與資料流不清 | 結構映射 | 盤點 manifest、入口、邊界、主要流向與相關 churn；形成可證偽 mental model |
-| 動手寫任何非 trivial 程式碼前，或同一解法連敗 2 次 | 查證 | 先讀官方文件與成熟實作再決定自造；停止猜 API 或堆變體 |
+| 動手寫任何非 trivial 程式碼前，或同一解法連敗 2 次 | 查證 | 跑 `/wheel` 再決定自造；停止猜 API 或堆變體 |
 | 使用者明確要求全庫健康、架構或技債審計 | 審計 | 先結構映射再判斷；每個 finding 附 `file:line`；另列反證與不確定性；不自動建議重寫 |
 | 已證實的專案特有陷阱或慣例 | 專案記憶 | 若既有 `.claude/napkin.md`，依授權精煉成可執行規則；具跨 session 檢索價值的 defect 才進 fixindex |
 
@@ -52,10 +52,10 @@ metadata:
 | 層 | 觸發 | 動作 |
 |---|---|---|
 | 1. 查現況與舊帳 | 跨 session、重複故障、破壞性操作或 repo 規則要求 | 先查版控／服務狀態；再查既有 napkin、fixindex 與 session 歷史 |
-| 2. 找輪子與查證 | **所有 coding 任務預設觸發**，排在 Layer 1 之後、動手之前（trivial 單行改動／純配置例外，寫「輪子：不適用（原因）」豁免）；同一解法連敗 2 次必觸發 | 官方文件、upstream issue、真實程式碼用法、成熟套件並行查證；查完在計畫寫一行「輪子：採用 X／借鏡 X／無合適自作／不適用」 |
+| 2. 找輪子與查證 | **所有 coding 任務預設觸發**，排在 Layer 1 之後、動手之前（trivial 單行改動／純配置例外，寫「輪子：不適用（原因）」豁免）；同一解法連敗 2 次必觸發 | 跑 `/wheel`（三軸＋輪子卡）；計畫寫一行「輪子：<裁決> <來源>」或「輪子：不適用（原因）」 |
 | 3. 記錄並停手 | 已試 3 種實質不同方案仍失敗 | 記下假設、反例、證據與最小下一步；停止第 4 條盲試，交回決策 |
 
-Layer 2 指令與來源優先序 → [references/research-playbook.md](references/research-playbook.md)。宿主若定義更嚴格輪次，以宿主為準。
+Layer 2 全文 → [`/wheel` skill](../wheel/SKILL.md)。宿主若定義更嚴格輪次，以宿主為準。
 
 ## 停損
 
@@ -110,7 +110,6 @@ fixindex 完整格式、禁則與寫入驗證 → [references/fixindex-usage.md]
 | 檔名 | 何時讀 |
 |---|---|
 | `references/orientation-routing.md` | 開工選理解深度、使用既有圖譜或做全庫審計 |
-| `references/research-playbook.md` | Layer 2 找輪子與查證 |
 | `references/stop-loss.md` | 卡住或清單變長 |
 | `references/acceptance.md` | 驗收前 |
 | `references/fixindex-usage.md` | 查舊帳或完工寫入 fixindex |
