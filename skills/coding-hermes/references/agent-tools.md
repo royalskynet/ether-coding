@@ -9,7 +9,7 @@
 |---|---|---|
 | **契約** skill／`CLAUDE.md`／openclaw 人格檔 | `<memory>/agent/`（private repo，live 位置是 symlink 指過去） | 主 session |
 | **資料** golden corpus／指標快照 | `<memory>/templates/` | 主 session |
-| **工具** 下列腳本 | `~/dev/agent-tools`（`royalskynet/agent-tools`, private） | **可派 worker** |
+| **工具** 下列腳本 | `~/dev/agent-tools`（`royalskynet/Glass-Breaker`, private） | **可派 worker** |
 
 **為什麼工具要獨立出去**：worker 的 approvals policy 把 `<memory>/` 列為「需審批」，
 派過去不會乾脆失敗，而是卡審批逾時、燒完 iteration 預算（fixindex `0292`）。
@@ -42,5 +42,17 @@
   驗收：`grep -rn "/Users/" bin/` 必須無輸出。
 - 工具只負責產出，**寫入 `<memory>/` 或 `~/.claude/` 由主 session 執行**。
   這條界線就是「可派 worker」的前提，破壞它等於白搬。
+
+## 自寫 Hermes 腳本（cron／launchd entry point）
+
+- **第一個 hermes 相關 import 必須是 `import hermes_bootstrap`**，排在任何
+  `agent.*`、`llm_fallback`、第三方依賴之前。bootstrap 在模組層會 `execv` 換到內建
+  python 並用 runpy 重跑整支腳本；若依賴已先在 venv 解譯器載到一半，重跑的子行程會在
+  依賴尚未接上時 import 而 `ModuleNotFoundError`（fixindex `9893`）。
+- **辨識特徵**：`python -c "import X"` 成功、跑檔案卻 `No module named X`；log 開頭印兩次；
+  traceback 最外層是 `<string>` 裡的 `runpy.run_path`。看到這組合別猜 PATH 或 hook，
+  先 monkeypatch `os.execv` 印堆疊，找出是誰換了解譯器。
+- 驗收照 plist 原樣重現：`env -i` 帶 plist 的 `PATH`／`HERMES_HOME`，用 plist 指定的
+  解譯器跑；腳本有 `--dry-run` 就用它，避免排程外觸發真實副作用。
 
 完整說明見該 repo 的 `README.md`，本檔不重抄。
